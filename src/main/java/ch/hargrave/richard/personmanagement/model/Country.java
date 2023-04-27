@@ -6,9 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Country {
 
     @Id
@@ -21,4 +23,8 @@ public class Country {
     @Column(nullable = false)
     private String nationality;
 
+    public Country(String country, String nationality) {
+        this.country = country;
+        this.nationality = nationality;
+    }
 }
