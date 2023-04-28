@@ -3,6 +3,7 @@ package ch.hargrave.richard.personmanagement;
 import ch.hargrave.richard.personmanagement.model.Country;
 import ch.hargrave.richard.personmanagement.repository.CountryRepo;
 import ch.hargrave.richard.personmanagement.service.CountryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,13 +71,68 @@ class RestControllerTests {
     @Test
     void testPostCountry() throws Exception {
 
-        CountryService countryService = new CountryService(countryRepo);
         String accessToken = obtainAccessToken();
-        Country country = new Country("Japan", "Japanese");
+        Country country = new Country();
+        country.setCountry("Japan");
+        country.setNationality("Japanese");
+        String body = new ObjectMapper().writeValueAsString(country);
 
-        System.out.println();
-        api.perform(post("/api/country/").header("Authorization", "Bearer " + accessToken)
-                        .with(csrf()).content(country.toString())).andReturn().getResponse().getOutputStream();
+        api.perform(post("/api/country").contentType(MediaType.APPLICATION_JSON)
+                        .content(body).header("Authorization", "Bearer " + accessToken)
+                        .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Japan")));
+    }
+
+    @Test
+    void testUpdateCountry() throws Exception {
+
+        String accessToken = obtainAccessToken();
+        Country country = new Country();
+        country.setCountry("Japan");
+        country.setNationality("Japanese");
+        country.setId(33L);
+        String body = new ObjectMapper().writeValueAsString(country);
+
+        api.perform(post("/api/country").contentType(MediaType.APPLICATION_JSON)
+                        .content(body).header("Authorization", "Bearer " + accessToken)
+                        .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Japan")));
+
+        country.setCountry("China");
+        country.setNationality("Chinese");
+        Long id = country.getId();
+        body = new ObjectMapper().writeValueAsString(country);
+
+        api.perform(put("/api/country/" + id).contentType(MediaType.APPLICATION_JSON)
+                        .content(body).header("Authorization", "Bearer " + accessToken)
+                        .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("China")));
+    }
+
+    @Test
+    void testTerminateCountry() throws Exception {
+
+        String accessToken = obtainAccessToken();
+        Country country = new Country();
+        country.setCountry("Japan");
+        country.setNationality("Japanese");
+        country.setId(33L);
+        Long id = country.getId();
+        String body = new ObjectMapper().writeValueAsString(country);
+
+        api.perform(post("/api/country").contentType(MediaType.APPLICATION_JSON)
+                        .content(body).header("Authorization", "Bearer " + accessToken)
+                        .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Japan")));
+
+        api.perform(delete("/api/country/" + id).header("Authorization", "Bearer " + accessToken)
+                .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andReturn().equals(null);
     }
 
     private String obtainAccessToken() {

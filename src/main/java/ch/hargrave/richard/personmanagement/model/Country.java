@@ -27,4 +27,9 @@ public class Country {
         this.country = country;
         this.nationality = nationality;
     }
+    public Country(String country, String nationality, long id) {
+        this.country = country;
+        this.nationality = nationality;
+        this.id = id;
+    }
 }
