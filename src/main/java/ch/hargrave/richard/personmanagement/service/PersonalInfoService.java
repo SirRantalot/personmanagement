@@ -37,7 +37,7 @@ public class PersonalInfoService {
                     personalOG.setName(personal.getName());
                     personalOG.setFirstname(personal.getFirstname());
                     personalOG.setNationality(personal.getNationality());
-                    personalOG.setCotactDetails(personal.getCotactDetails());
+                    personalOG.setContactDetails(personal.getContactDetails());
                     return personalRepo.save(personalOG);
                 })
                 .orElseGet(() -> personalRepo.save(personal));

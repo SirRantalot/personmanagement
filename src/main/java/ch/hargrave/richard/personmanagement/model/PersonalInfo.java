@@ -20,11 +20,9 @@ public class PersonalInfo {
     @Column(nullable = false)
     private Integer age;
 
-    private enum title{Mr, Mrs, Ms, divers};
-
     @OneToOne(optional = false)
     @JoinColumn(name = "contactDetails_id")
-    private ContactDetails cotactDetails;
+    private ContactDetails contactDetails;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "nationality_id")
