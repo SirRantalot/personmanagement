@@ -10,9 +10,3 @@ spring:
   #  username: postgres
   #  password: asdf
   #  driverClassName: org.postgresql.Driver
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/personmanager
-
