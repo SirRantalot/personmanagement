@@ -16,4 +16,12 @@ public class City {
 
     @Column(nullable = false)
     private String city;
+
+    public City() {
+        // Default constructor
+    }
+
+    public City(String city) {
+        this.city = city;
+    }
 }
