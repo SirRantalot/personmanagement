@@ -40,7 +40,6 @@ class CityControllerTests {
     }
 
     @Test
-    @Order(1)
     void testGetCities() throws Exception {
 
         api.perform(get("/api/city"))

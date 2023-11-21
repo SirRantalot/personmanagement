@@ -33,4 +33,16 @@ public class ContactDetails {
     @ManyToOne(optional = false)
     @JoinColumn(name = "country_id")
     private Country country;
+
+    // Constructor
+    public ContactDetails(String street, String streetNumber, String email, Integer postalNumber, String phoneNumber,
+            City city, Country country) {
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.email = email;
+        this.postalNumber = postalNumber;
+        this.phoneNumber = phoneNumber;
+        this.city = city;
+        this.country = country;
+    }
 }
