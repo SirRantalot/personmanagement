@@ -31,8 +31,8 @@ class DBCityTests {
         City city1 = cityRepo.save(new City("Berlin"));
         Assertions.assertNotNull(city1.getId());
 
-        //cityRepo.deleteById(city.getId());
-        //cityRepo.deleteById(city1.getId());
+        cityRepo.deleteById(city.getId());
+        cityRepo.deleteById(city1.getId());
     }
 
     @Test
