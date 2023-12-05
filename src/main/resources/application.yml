@@ -1,12 +1,14 @@
-server.port: 8081
+server:
+  port: 8080
+
 spring:
-    jpa: management
+  datasource:
+    url: jdbc:postgresql://localhost:5432/person
+    username: postgres
+    password: Gingerbeer.117
+    driverClassName: org.postgresql.Driver
+  jpa:
     show-sql: true
     generate-ddl: true
     hibernate:
       ddl-auto: update
-datasource:
-    url: jdbc:postgresql://localhost:5432/person
-    username: postgres
-    password: asdf
-    driverClassName: org.postgresql.Driver
