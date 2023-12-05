@@ -16,7 +16,7 @@ import java.util.Optional;
 @DataJpaTest()
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
-class DBTests {
+class DBCountryTests {
 
     @Autowired
     private CountryRepo countryRepo;
@@ -31,8 +31,8 @@ class DBTests {
         Country country1 = countryRepo.save(new Country("Germany", "German", id2));
         Assertions.assertNotNull(country1.getId());
 
-        //countryRepo.deleteById(country.getId());
-        //countryRepo.deleteById(country1.getId());
+        countryRepo.deleteById(country.getId());
+        countryRepo.deleteById(country1.getId());
     }
 
     @Test
