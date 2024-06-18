@@ -1,7 +1,7 @@
 package ch.hargrave.richard.personmanagement;
 
-import ch.hargrave.richard.personmanagement.model.City;
-import ch.hargrave.richard.personmanagement.repository.CityRepo;
+import ch.hargrave.richard.personmanagement.model.Country;
+import ch.hargrave.richard.personmanagement.repository.CountryRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -30,45 +30,44 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback(false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CityControllerTests {
+class CountryControllerTests {
     @Autowired
     private MockMvc api;
 
     @Autowired
-    private CityRepo cityRepo;
+    private CountryRepo countryRepo;
 
     @Test
-    void testGetCity() throws Exception {
-        City city = new City("Zurich");
-        this.cityRepo.save(city);
+    void testGetCountry() throws Exception {
+        Country country = new Country("Switzerland", "Swiss");
+        this.countryRepo.save(country);
 
-        api.perform(get("/api/city"))
+        api.perform(get("/api/country"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Zurich")));
+                .andExpect(content().string(containsString("Switzerland")));
 
-        this.cityRepo.delete(city);
+        this.countryRepo.delete(country);
     }
 
-
     @Test
-    void testPostUpdateDeleteCity() throws Exception {
-        City city = new City("Tokyo");
-        String body = new ObjectMapper().writeValueAsString(city);
+    void testPostUpdateDeleteCountry() throws Exception {
+        Country country = new Country("Switzerland", "Swiss");
+        String body = new ObjectMapper().writeValueAsString(country);
 
-        MvcResult mvcResult = api.perform(post("/api/city").contentType(MediaType.APPLICATION_JSON)
+        MvcResult mvcResult = api.perform(post("/api/country").contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Tokyo")))
+                .andExpect(content().string(containsString("Switzerland")))
                 .andReturn();
 
-        Long id = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), City.class).getId();
+        Long id = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Country.class).getId();
 
-        api.perform(put("/api/city/" + id).contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(new City("Beijing"))))
+        api.perform(put("/api/country/" + id).contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(new Country("Germany", "German"))))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Beijing")));
+                .andExpect(content().string(containsString("Germany")));
 
-        api.perform(delete("/api/city/" + id))
+        api.perform(delete("/api/country/" + id))
                 .andDo(print()).andExpect(status().isOk())
                 .andReturn().equals(null);
     }
