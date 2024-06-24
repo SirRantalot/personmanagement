@@ -5,9 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class City {
 
     @Id
@@ -16,10 +18,6 @@ public class City {
 
     @Column(nullable = false)
     private String city;
-
-    public City() {
-        // Default constructor
-    }
 
     public City(String city) {
         this.city = city;

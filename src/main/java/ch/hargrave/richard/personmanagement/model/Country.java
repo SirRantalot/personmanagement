@@ -1,6 +1,5 @@
 package ch.hargrave.richard.personmanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
