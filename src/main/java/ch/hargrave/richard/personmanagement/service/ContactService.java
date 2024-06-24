@@ -4,18 +4,16 @@ import ch.hargrave.richard.personmanagement.base.MessageResponse;
 import ch.hargrave.richard.personmanagement.model.ContactDetails;
 import ch.hargrave.richard.personmanagement.repository.ContactRepo;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ContactService {
 
     private final ContactRepo contactRepo;
-
-    public ContactService(ContactRepo contactRepo) {
-        this.contactRepo = contactRepo;
-    }
 
     public List<ContactDetails> getContactDetails() {
         return contactRepo.findByOrderByEmailAsc();

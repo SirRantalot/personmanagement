@@ -4,18 +4,16 @@ import ch.hargrave.richard.personmanagement.base.MessageResponse;
 import ch.hargrave.richard.personmanagement.model.PersonalInfo;
 import ch.hargrave.richard.personmanagement.repository.PersonalRepo;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PersonalInfoService {
 
     private final PersonalRepo personalRepo;
-
-    public PersonalInfoService(PersonalRepo personalRepo) {
-        this.personalRepo = personalRepo;
-    }
 
     public List<PersonalInfo> getPersonalInfo() {
         return personalRepo.findByOrderByNameAsc();

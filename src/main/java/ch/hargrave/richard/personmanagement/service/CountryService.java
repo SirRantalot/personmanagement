@@ -4,18 +4,16 @@ import ch.hargrave.richard.personmanagement.base.MessageResponse;
 import ch.hargrave.richard.personmanagement.model.Country;
 import ch.hargrave.richard.personmanagement.repository.CountryRepo;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
 
     private final CountryRepo countryRepo;
-
-    public CountryService(CountryRepo countryRepo) {
-        this.countryRepo = countryRepo;
-    }
 
     public List<Country> getCountries() {
         return countryRepo.findByOrderByCountryAsc();
